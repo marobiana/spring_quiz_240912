@@ -31,4 +31,8 @@ public class WeatherHistoryController {
 	}
 	
 	// 날씨 입력 화면
+	@GetMapping("/add-weather-view")
+	public String addWeatherView() {
+		return "weatherhistory/addWeather";
+	}
 }
