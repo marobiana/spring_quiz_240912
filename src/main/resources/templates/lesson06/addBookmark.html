@@ -62,7 +62,11 @@
 					
 					// response - callback 함수
 					, success:function(data) { // jquery의 $.ajax()가 JSON String -> parsing => js dictionary로
-						alert(data.code);
+						//alert(data.code);
+						if (data.code == 200) {
+							// 성공 => 목록 화면 이동
+							location.href = "/lesson06/quiz01/bookmark-list-view"; // get request
+						}
 					}
 					, error:function(e) {
 						alert("추가하는데 실패했습니다.");
