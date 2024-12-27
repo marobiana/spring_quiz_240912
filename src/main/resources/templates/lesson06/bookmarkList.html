@@ -18,6 +18,7 @@
 					<th>No.</th>
 					<th>사이트명</th>
 					<th>주소</th>
+					<th>삭제</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -26,6 +27,9 @@
 					<td th:text="${bookmark.name}"></td>
 					<td>
 						<a th:href="${bookmark.url}" th:text="${bookmark.url}"></a>
+					</td>
+					<td>
+						<button type="button" class="del-btn btn btn-danger">삭제</button>
 					</td>
 				</tr>
 			</tbody>
