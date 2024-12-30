@@ -96,4 +96,27 @@ public class BookingController {
 	public String checkBookingView() {
 		return "booking/checkBooking";
 	}
+	
+	// AJAX 요청
+	// 이름, 전화번호 조회
+	@ResponseBody   // 이것을 사용하면 model 사용할 수 없다.
+	@PostMapping("/check-booking")
+	public Map<String, Object> checkBooking(
+			@RequestParam("name") String name,
+			@RequestParam("phoneNumber") String phoneNumber) {
+		
+		// db 조회
+		
+		// 응답값
+		// {"code":200, "booking":{"id":3, "name":"신보람"...}}
+		// {"code":400, "error_message":"조회된 결과가 없습니다."}
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("booking", null);
+		return result;
+	}
 }
+
+
+
+

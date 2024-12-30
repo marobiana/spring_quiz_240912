@@ -68,6 +68,36 @@
 	<script>
 		$(document).ready(function() {
 			
+			$("#checkBookingBtn").on('click', function() {
+				//alert("111");
+				let name = $("#name").val().trim();
+				let phoneNumber = $("#phoneNumber").val().trim();
+				
+				if (!name) {
+					alert("이름을 입력하세요");
+					return;
+				}
+				if (!phoneNumber) {
+					alert("번호를 입력하세요");
+					return;
+				}
+				
+				$.ajax({
+					// request
+					type:"post"
+					, url:"/booking/check-booking"
+					, data:{"name":name, "phoneNumber":phoneNumber}
+					
+					// response- callback
+					, success:function(data) {
+						
+					}
+					, error:function(e) {
+						alert("조회를 할 수 없습니다.");
+					}
+				});
+			});
+			
 			// 배너 이미지 변경
 			let bannerSrcArr = ['/img/test06_banner1.jpg', '/img/test06_banner2.jpg', '/img/test06_banner3.jpg', '/img/test06_banner4.jpg'];
             let currentIndex = 0;
