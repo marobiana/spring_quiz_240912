@@ -8,6 +8,10 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     
+    <!-- datapicker -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    
     <!-- 외부 stylesheet -->
 	<link rel="stylesheet" type="text/css" th:href="@{/css/booking/style.css}">
 </head>
@@ -56,5 +60,78 @@
 	        </small>
 	    </footer>
 	</div>
+	
+	<script>
+		$(document).ready(function() {
+			// 날짜 데이트 피커
+			$("#date").datepicker({
+				dateFormat:"yy-mm-dd"
+				, minDate:0 // 오늘, 오늘 이후부터 선택
+			});
+			
+			// 추가 버튼 클릭
+			$("#makeBookingBtn").on("click", function() {
+				//alert("추가");
+				let name = $("#name").val().trim();
+				let date = $("#date").val().trim();
+				let day = $("#day").val().trim();
+				let headcount = $("#headcount").val().trim();
+				let phoneNumber = $("#phoneNumber").val().trim();
+				
+				// validation
+				if (!name) {
+					alert("이름을 입력하세요");
+					return;
+				}
+				
+				if (!date) {
+					alert("날짜를 선택하세요.");
+					return;
+				}
+				
+				if (!day) {
+					alert("숙박일을 입력하세요");
+					return;
+				}
+				
+				if (!headcount) {
+					alert("숙박인원을 입력하세요");
+					return;
+				}
+				
+				if (!phoneNumber) {
+					alert("전화번호를 입력하세요");
+					return;
+				}
+				
+				$.ajax({
+					// request
+					type:"post"
+					, url:"/booking/make-booking"
+					, data:{
+						"name":name, 
+						"date":date, // yyyy-MM-dd
+						"day":day,
+						"headcount":headcount,
+						"phoneNumber":phoneNumber
+					}
+					
+					// response - callback 함수
+					, success:function(data) {
+						// {"code":200, "result":"성공"}
+						if (data.code == 200) {
+							alert("예약 되었습니다.");
+							location.href = "/booking/booking-list-view"; // redirect 아님, get 요청
+						} else {
+							alert(data.error_message);
+						}
+					}
+					, error:function(e) {
+						alert("예약하는데 실패했습니다.");
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

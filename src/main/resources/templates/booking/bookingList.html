@@ -50,7 +50,9 @@
 	            			<span th:if="${booking.state == '확정'}" th:text="${booking.state}" class="text-success"></span>
 	            			<span th:if="${booking.state == '취소'}" th:text="${booking.state}" class="text-danger"></span>
 	            		</td>
-	            		<td></td>
+	            		<td>
+	            			<button type="button" class="del-btn btn btn-danger" th:data-booking-id="${booking.id}">삭제</button>
+	            		</td>
 	            	</tr>
 	            </tbody>
 			</table>
@@ -63,5 +65,38 @@
 	        </small>
 	    </footer>
 	</div>
+	
+	<script>
+		$(document).ready(function() {
+			$(".del-btn").on("click", function(){
+				//alert("삭제");
+				let id = $(this).data("booking-id");
+				//alert(id);
+				
+				$.ajax({
+					// request
+					type:"delete"
+					, url:"/booking/delete-booking"
+					, data:{"id":id}
+					
+					// response
+					, success:function(data) {
+						// {"code":200, "result":"성공"}
+						if (data.result == "성공") {
+							location.reload(true);
+						} else {
+							alert(data.error_message);
+						}
+					}
+					, error:function(e) {
+						alert("삭제하는데 실패했습니다.");
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>
+
+
+
