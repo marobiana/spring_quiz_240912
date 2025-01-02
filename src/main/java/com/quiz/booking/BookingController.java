@@ -106,13 +106,20 @@ public class BookingController {
 			@RequestParam("phoneNumber") String phoneNumber) {
 		
 		// db 조회
+		Booking booking = bookingBO.getLatestBookingByNamePhoneNumber(name, phoneNumber);
 		
 		// 응답값
 		// {"code":200, "booking":{"id":3, "name":"신보람"...}}
 		// {"code":400, "error_message":"조회된 결과가 없습니다."}
 		Map<String, Object> result = new HashMap<>();
-		result.put("code", 200);
-		result.put("booking", null);
+		if (booking == null) {
+			result.put("code", 400);
+			result.put("error_message", "조회된 결과가 없습니다.");
+		} else {
+			result.put("code", 200);
+			result.put("booking", booking);
+		}
+		
 		return result;
 	}
 }
